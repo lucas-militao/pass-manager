@@ -1,5 +1,5 @@
 import React from 'react';
-import { TextInputProps } from 'react-native';
+import { Alert, TextInputProps } from 'react-native';
 import { Control, Controller } from 'react-hook-form';
 
 import {
@@ -26,7 +26,7 @@ export function Input({
   return (
     <Container>
       <Label>{title}</Label>
-      {error && <Error>{error}</Error>}
+      {error && <Error>{error}</Error> }
       <Controller
         name={name}
         control={control}

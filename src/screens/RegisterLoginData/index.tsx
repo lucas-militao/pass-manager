@@ -15,6 +15,7 @@ import {
   HeaderTitle,
   Form
 } from './styles';
+import { useNavigation } from '@react-navigation/native';
 
 interface FormData {
   title: string;
@@ -29,6 +30,7 @@ const schema = Yup.object().shape({
 })
 
 export function RegisterLoginData() {
+
   const {
     control,
     handleSubmit,
@@ -36,15 +38,36 @@ export function RegisterLoginData() {
     formState: {
       errors
     }
-  } = useForm();
+  } = useForm({
+    resolver: yupResolver(schema)
+  });
+
+  const passManagerKey = '@passmanager:logins';
 
   async function handleRegister(formData: FormData) {
     const newLoginData = {
       id: String(uuid.v4()),
       ...formData
     }
+    
+    console.log(newLoginData);
 
-    // Save data on AsyncStorage
+    try {
+      const data = await AsyncStorage.getItem(passManagerKey);
+      const currentData = data ? JSON.parse(data) : [];
+      const dataFormatted = [
+        ...currentData,
+        newLoginData
+      ];
+      
+      console.log(dataFormatted);
+      AsyncStorage.setItem(passManagerKey, JSON.stringify(dataFormatted));
+      
+      reset();
+    } catch (error) {
+      console.log(error);
+      Alert.alert("Não foi possível salvar o novo login!");
+    }
   }
 
   return (
@@ -60,9 +83,7 @@ export function RegisterLoginData() {
           <Input
             title="Título"
             name="title"
-            error={
-              // message error here
-            }
+            error={ errors.title?.message }
             control={control}
             placeholder="Escreva o título aqui"
             autoCapitalize="sentences"
@@ -71,9 +92,7 @@ export function RegisterLoginData() {
           <Input
             title="Email"
             name="email"
-            error={
-              // message error here
-            }
+            error={ errors.email?.message }
             control={control}
             placeholder="Escreva o Email aqui"
             autoCorrect={false}
@@ -83,9 +102,7 @@ export function RegisterLoginData() {
           <Input
             title="Senha"
             name="password"
-            error={
-              // message error here
-            }
+            error={ errors.password?.message }
             control={control}
             secureTextEntry
             placeholder="Escreva a senha aqui"
