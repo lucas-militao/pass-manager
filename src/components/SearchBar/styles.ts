@@ -18,11 +18,12 @@ export const Container = styled.View`
 
 export const Input = styled(TextInput)`
   font-size: ${(RFValue(12))}px;
-  color: #4E3975;
+  color: ${({ theme }) => theme.colors.primary};
 `;
 
 export const Icon = styled(Feather).attrs({
   size: 24,
-  color: '#9883BF'
-})``;
+})`
+  color: ${({ theme }) => theme.colors.primary_light};
+`;
 

@@ -41,5 +41,6 @@ export const ShowPasswordButton = styled.TouchableOpacity``;
 
 export const Icon = styled(Feather).attrs({
   size: 24,
-  color: '#4E3975'
-})``;
+})`
+  color: ${({ theme }) => theme.colors.primary};
+`;

@@ -5,6 +5,8 @@ import { NavigationContainer } from '@react-navigation/native';
 
 import { AppRoutes } from './src/routes/app.routes';
 import { StorageDataProvider } from './src/hooks/storageData';
+import { ThemeProvider } from 'styled-components/native';
+import theme from './src/global/styles/theme';
 
 export default function App() {
   const [fontsLoaded] = useFonts({
@@ -12,15 +14,18 @@ export default function App() {
     Poppins_500Medium
   });
 
+
   if (!fontsLoaded) {
     return <AppLoading />
   }
 
   return (
     <NavigationContainer>
-      <StorageDataProvider>
-        <AppRoutes />
-      </StorageDataProvider>
+      <ThemeProvider theme={theme}>
+        <StorageDataProvider>
+          <AppRoutes />
+        </StorageDataProvider>
+      </ThemeProvider>
     </NavigationContainer>
   );
 }
