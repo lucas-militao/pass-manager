@@ -54,7 +54,6 @@ export function RegisterLoginData() {
       setData(newLoginData);
       
       reset();
-
     } catch (error) {
       console.log(error);
       Alert.alert("Não foi possível salvar o novo login!");

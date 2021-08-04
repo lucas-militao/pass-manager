@@ -12,16 +12,21 @@ import {
   Icon,
 } from './styles';
 
-interface Props {
+interface LoginDataItemProps {
+  id: string;
   title: string;
   email: string;
   password: string;
 }
 
+interface Props {
+  data: LoginDataItemProps;
+  deleteItem: (id: string) => void;
+}
+
 export function LoginDataItem({
-  title,
-  email,
-  password,
+  data,
+  deleteItem
 }: Props) {
   const [passIsVisible, setPassIsVisible] = useState(false);
 
@@ -32,11 +37,11 @@ export function LoginDataItem({
   return (
     <Container>
       {passIsVisible
-        ? <Password>{password}</Password>
+        ? <Password>{data.password}</Password>
         : (
           <LoginData>
-            <Title>{title}</Title>
-            <Email>{email}</Email>
+            <Title>{data.title}</Title>
+            <Email>{data.email}</Email>
           </LoginData>
         )
       }
@@ -48,7 +53,9 @@ export function LoginDataItem({
           <Icon name={passIsVisible ? "eye-off" : "eye"} />
         </ShowPasswordButton >
 
-        <DeleteLoginDataItemButton>
+        <DeleteLoginDataItemButton
+          onPress={() => deleteItem(data.id)}
+        >
           <Icon name="trash"/>
         </DeleteLoginDataItemButton>
       </ButtonsContainer>

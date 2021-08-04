@@ -25,12 +25,12 @@ export function Home() {
   const [searchListData, setSearchListData] = useState<LoginListDataProps>([]);
   const [loginItensData, setLoginItensData] = useState<LoginListDataProps>([]);
 
-  const { setData, getData } = useStorageData();
+  const { setData, getData, updateData } = useStorageData();
 
   async function loadData() {
     try {
       const dataStored =  await getData();
-  
+      
       if (dataStored) {
         const currentData = JSON.parse(dataStored);
         setLoginItensData(currentData);
@@ -40,7 +40,25 @@ export function Home() {
     } catch (error) {
       console.log(error);
     }
+  }
 
+  async function handleDeleteLoginDataItem(id: string) {
+    try {
+      const dataStored =  await getData();
+
+      if (dataStored) {
+        const currentData = JSON.parse(dataStored);
+        
+        const dataFormatted = currentData.filter((item: LoginDataProps) => item.id !== id)
+        
+        updateData(dataFormatted);
+        setLoginItensData(dataFormatted);
+        setSearchListData(dataFormatted);
+      }
+
+    } catch (error) {
+      
+    }
   }
 
   useEffect(() => {
@@ -78,9 +96,13 @@ export function Home() {
         )}
         renderItem={({ item: loginData }) => {
           return <LoginDataItem
-            title={loginData.title}
-            email={loginData.email}
-            password={loginData.password}
+            data={{
+              id: loginData.id,
+              title: loginData.title,
+              email: loginData.email,
+              password: loginData.password,
+            }}
+            deleteItem={handleDeleteLoginDataItem}
           />
         }}
       />

@@ -9,6 +9,8 @@ interface StorageDataProviderProps {
 interface IStorageContextData {
   getData: () => Promise<string>;
   setData: (newData: DataProps) => void;
+  updateData: (newData: DataProps[]) => void;
+  removeData: () => void;
 }
 
 interface DataProps {
@@ -43,16 +45,23 @@ function StorageDataProvider({ children }: StorageDataProviderProps) {
       newData
     ];
 
-    console.log(dataFormatted);
-
     await AsyncStorage.setItem(passManagerKey, JSON.stringify(dataFormatted));
   }
-  
+
+  async function updateData(newData: DataProps[]) {
+    await AsyncStorage.setItem(passManagerKey, JSON.stringify(newData));
+  }
+
+  async function removeData() {
+    await AsyncStorage.removeItem(passManagerKey);
+  }
 
   return (
     <StorageDataContext.Provider value={{
       getData,
-      setData
+      setData,
+      removeData,
+      updateData
     }}>
       {children}
     </StorageDataContext.Provider>
