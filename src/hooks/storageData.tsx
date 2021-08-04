@@ -7,8 +7,8 @@ interface StorageDataProviderProps {
 }
 
 interface IStorageContextData {
-  getData(): void;
-  setData(newData: DataProps): void;
+  getData: () => Promise<string>;
+  setData: (newData: DataProps) => void;
 }
 
 interface DataProps {
@@ -32,15 +32,18 @@ function StorageDataProvider({ children }: StorageDataProviderProps) {
 
   async function getData() {
     const data = await AsyncStorage.getItem(passManagerKey);
-    return data ? JSON.parse(data) : [];
+    return data ? data : '';
   }
 
   async function setData(newData: DataProps) {
-    const currentData = await getData();
+    const data = await getData();
+    const currentData = data ? JSON.parse(data) : [];
     const dataFormatted = [
       ...currentData,
       newData
     ];
+
+    console.log(dataFormatted);
 
     await AsyncStorage.setItem(passManagerKey, JSON.stringify(dataFormatted));
   }

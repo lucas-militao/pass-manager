@@ -42,8 +42,6 @@ export function RegisterLoginData() {
     resolver: yupResolver(schema)
   });
 
-  const passManagerKey = '@passmanager:logins';
-
   const { setData } = useStorageData();
 
   async function handleRegister(formData: FormData) {
@@ -53,9 +51,10 @@ export function RegisterLoginData() {
     }
   
     try {
-      await setData(newLoginData);
+      setData(newLoginData);
       
       reset();
+
     } catch (error) {
       console.log(error);
       Alert.alert("Não foi possível salvar o novo login!");

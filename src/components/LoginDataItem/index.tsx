@@ -6,8 +6,10 @@ import {
   Password,
   Title,
   Email,
+  ButtonsContainer,
   ShowPasswordButton,
-  Icon
+  DeleteLoginDataItemButton,
+  Icon,
 } from './styles';
 
 interface Props {
@@ -19,7 +21,7 @@ interface Props {
 export function LoginDataItem({
   title,
   email,
-  password
+  password,
 }: Props) {
   const [passIsVisible, setPassIsVisible] = useState(false);
 
@@ -39,11 +41,18 @@ export function LoginDataItem({
         )
       }
 
-      <ShowPasswordButton
-        onPress={handleTogglePassIsVisible}
-      >
-        <Icon name={passIsVisible ? "eye-off" : "eye"} />
-      </ShowPasswordButton>
+      <ButtonsContainer>
+        <ShowPasswordButton 
+          onPress={handleTogglePassIsVisible}
+        >
+          <Icon name={passIsVisible ? "eye-off" : "eye"} />
+        </ShowPasswordButton >
+
+        <DeleteLoginDataItemButton>
+          <Icon name="trash"/>
+        </DeleteLoginDataItemButton>
+      </ButtonsContainer>
+
     </Container>
   );
 }

@@ -1,6 +1,7 @@
 import styled from 'styled-components/native';
 import Feather from '@expo/vector-icons/Feather';
 import { RFValue } from 'react-native-responsive-fontsize';
+import { TouchableOpacityProps } from 'react-native';
 
 export const Container = styled.View`
   background-color: #FFFFFF;
@@ -37,7 +38,15 @@ export const Email = styled.Text`
   color: #9883BF;
 `;
 
-export const ShowPasswordButton = styled.TouchableOpacity``;
+export const ButtonsContainer = styled.View`
+  flex-direction: row;
+`;
+
+export const ShowPasswordButton = styled.TouchableOpacity`
+  margin-right: 16px;
+`;
+
+export const DeleteLoginDataItemButton = styled.TouchableOpacity``;
 
 export const Icon = styled(Feather).attrs({
   size: 24,
